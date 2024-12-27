@@ -2,50 +2,33 @@ import subprocess
 
 def run_command(command):
     """
-    Helper function to run shell commands.
+    Helper function to execute shell commands.
     Args:
-        command (list): List of command arguments.
+        command (list): Command to execute as a list.
     """
     try:
         subprocess.run(command, check=True)
         print(f"Command {' '.join(command)} executed successfully.")
     except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {e}")
+        print(f"Error: {e}")
 
 def initialize_dvc():
-    """
-    Initialize DVC in the project directory.
-    """
+    """Initialize DVC in the project."""
     run_command(['dvc', 'init'])
 
-def setup_dvc_remote(remote_name, remote_path):
-    """
-    Set up a DVC remote storage.
-    Args:
-        remote_name (str): Name of the remote storage.
-        remote_path (str): Path to the remote storage.
-    """
+def setup_remote(remote_name, remote_path):
+    """Set up a DVC remote."""
     run_command(['dvc', 'remote', 'add', '-d', remote_name, remote_path])
 
-def add_data_to_dvc(data_path):
-    """
-    Add a dataset to DVC tracking.
-    Args:
-        data_path (str): Path to the data file or directory.
-    """
-    run_command(['dvc', 'add', data_path])
+def add_dataset(dataset_path):
+    """Add a dataset to DVC tracking."""
+    run_command(['dvc', 'add', dataset_path])
 
-def push_dvc_data():
-    """
-    Push tracked data to remote storage.
-    """
+def push_to_remote():
+    """Push data to the configured DVC remote."""
     run_command(['dvc', 'push'])
 
-def commit_changes_to_git(commit_message):
-    """
-    Commit changes to Git.
-    Args:
-        commit_message (str): Commit message for Git.
-    """
+def commit_changes(message):
+    """Commit changes to Git."""
     run_command(['git', 'add', '.'])
-    run_command(['git', 'commit', '-m', commit_message])
+    run_command(['git', 'commit', '-m', message])
